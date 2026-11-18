@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17123a">
+<title>Szószedő – online activity</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0f0b24;--bg:#17123a;--c0:#ff5d73;--c1:#22d3c5;--c2:#ffc933;--c3:#8b6cff}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;min-height:100vh;color:#fff;font:17px/1.4 'Bricolage Grotesque',system-ui,sans-serif;background:radial-gradient(900px 500px at 50% -10%,#3b2a8f,transparent 70%),radial-gradient(600px 400px at 100% 100%,#7a1f6b66,transparent 70%),var(--bg) fixed}
+main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:22px 16px 70px}
+main>section{animation:in .4s cubic-bezier(.2,1.2,.4,1)}
+@keyframes in{from{opacity:0;transform:translateY(16px) scale(.97)}}
+h1{font-size:clamp(52px,15vw,88px);line-height:.95;margin:.1em 0 .25em;font-weight:800;letter-spacing:-.04em;text-shadow:4px 4px 0 var(--c0),8px 8px 0 var(--c3)}
+h2{font-size:28px;margin:.3em 0;font-weight:800}
+button,input,select{font:inherit;border:3px solid var(--ink);border-radius:14px;padding:11px 16px;color:var(--ink);background:#fff}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:4px solid var(--c1);outline-offset:2px}
+button{cursor:pointer;font-weight:800;background:var(--c2);box-shadow:0 5px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+button:hover{transform:translateY(-2px);box-shadow:0 7px 0 var(--ink)}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+button:disabled{opacity:.45;pointer-events:none}
+button.big{font-size:22px;padding:14px 24px}button.pk{background:var(--c1)}button.w{background:#fff}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.pn{background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 var(--ink);padding:12px 16px;margin:12px 0}
+.tm{border-left:14px solid var(--c,var(--ink));animation:in .35s}
+.av{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--c,var(--c3));color:#fff;font-style:normal;font-weight:800;border:3px solid var(--ink);margin-right:6px;vertical-align:middle}
+.av.dim{opacity:.3}.pl{display:inline-block;margin:3px 12px 3px 0;font-weight:600}
+.code{display:flex;gap:8px;cursor:pointer}
+.code b{width:58px;height:70px;display:grid;place-items:center;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:12px;font-size:42px;box-shadow:0 5px 0 var(--ink);animation:in .5s backwards}
+.code b:nth-child(odd){transform:rotate(-3deg)}.code b:nth-child(even){transform:rotate(2.5deg)}
+.code b:nth-child(2){animation-delay:.08s}.code b:nth-child(3){animation-delay:.16s}.code b:nth-child(4){animation-delay:.24s}
+#wi input{display:block;width:100%;margin:8px 0;background:#fffbe6;border-radius:6px 14px 6px 14px;font-weight:600}
+#sc{display:flex;gap:10px}
+.ch{flex:1;background:var(--c);border:3px solid var(--ink);border-radius:16px;padding:6px 12px;font-weight:800;text-align:center;box-shadow:0 5px 0 var(--ink);opacity:.7;transition:transform .2s}
+.ch b{display:block;font-size:40px;line-height:1}
+.ch.on{opacity:1;transform:translateY(-4px) scale(1.04)}.ch.bump b{animation:bmp .5s}
+@keyframes bmp{40%{transform:scale(1.8) rotate(-6deg)}}
+#tbar{height:16px;background:#0005;border:3px solid var(--ink);border-radius:10px;overflow:hidden}
+#tf{height:100%;background:var(--c1);transform-origin:left}
+#tbar.hot #tf{background:var(--c0)}#tbar.hot~#tt{color:var(--c0);animation:pls .5s infinite}
+#tt{font-size:54px;font-weight:800;text-align:center;line-height:1.1}
+@keyframes pls{50%{transform:scale(1.25)}}
+#big{background:#fffbe6;color:var(--ink);border:3px solid var(--ink);border-radius:6px 24px 8px 22px;padding:40px 14px;font-size:clamp(30px,9vw,54px);font-weight:800;text-align:center;box-shadow:8px 8px 0 var(--ink);margin:18px 4px;word-break:break-word;transform:rotate(var(--r,-1.5deg))}
+#big.slip{animation:slip .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes slip{from{transform:translateY(60px) rotate(12deg) scale(.6);opacity:0}}
+.bb{padding:7px 14px;margin:6px 0;border-radius:14px;background:#ffffff1f}
+.bb.nw{animation:in .3s}.bb.nw:not(.ok){animation:shk .4s}
+.bb.ok{background:var(--c1);color:var(--ink);font-weight:800}
+@keyframes shk{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#cv{width:100%;aspect-ratio:3/2;background:#fff;border:3px solid var(--ink);border-radius:16px;touch-action:none;margin:8px 0;box-shadow:0 6px 0 var(--ink)}
+.sw{width:40px;height:40px;padding:0;border-radius:50%}.sw.on{transform:scale(1.25)}
+#gf{display:flex;gap:10px}#gi{flex:1;font-size:22px}
+#sp{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:20;opacity:0}
+#sp.on{animation:spl 1.7s}
+@keyframes spl{0%{opacity:0;transform:scale(.5) rotate(-8deg)}15%{opacity:1;transform:scale(1.08)}25%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(1.15)}}
+#spi{background:var(--c);color:#fff;border:4px solid var(--ink);padding:20px 34px;border-radius:22px;transform:rotate(-3deg);font-size:clamp(28px,9vw,56px);font-weight:800;text-align:center;box-shadow:10px 10px 0 var(--ink);max-width:92vw}
+#spi small{display:block;font-size:.38em;font-weight:600;margin-top:4px}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:25}
+#mu{position:fixed;top:10px;right:10px;z-index:30;padding:6px 10px}
+.pod{display:flex;align-items:flex-end;justify-content:center;gap:12px;height:280px;margin:20px 0}
+.bar{flex:1;max-width:130px;background:var(--c);border:3px solid var(--ink);border-radius:16px 16px 0 0;text-align:center;font-weight:800;padding-top:8px;animation:grow 1s cubic-bezier(.2,1.2,.4,1)}
+.bar b{display:block;font-size:44px;line-height:1}.bar span{font-size:34px}
+@keyframes grow{from{height:0}}
+#fl i{position:fixed;z-index:0;font-style:normal;background:#fffbe6;color:var(--ink);padding:8px 14px;border:3px solid var(--ink);border-radius:6px 14px;font-weight:800;box-shadow:4px 4px 0 var(--ink);animation:flt 7s ease-in-out infinite var(--d)}
+@keyframes flt{50%{transform:translateY(-18px) rotate(5deg)}}
+@media(max-width:760px){#fl{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+#err{color:#ffd1d8;font-weight:800}small{opacity:.8}
+</style>
+</head>
+<body>
+<button id="mu" class="w" aria-label="Hang">🔊</button>
+<canvas id="fx"></canvas>
+<div id="sp"><div id="spi"></div></div>
+<main>
+<section id="home">
+  <div id="fl" aria-hidden="true"><i style="left:5%;top:10%;--d:0s">macska</i><i style="right:4%;top:22%;--d:-3s">Eiffel-torony</i><i style="left:9%;top:72%;--d:-5s">fagyi</i><i style="right:6%;top:80%;--d:-1.5s">focimeccs</i></div>
+  <h1>Szószedő</h1>
+  <p>Online activity: mindenki szavakat dob a kalapba, a csapatok találgatnak. A mutogatás és körülírás mehet Discordon, a játék megmondja, ki jön, és megmutatja neki a szót.</p>
+  <div class="row"><input id="name" placeholder="Neved" maxlength="20"></div>
+  <div class="row"><button id="mk" class="big">Új szoba létrehozása</button></div>
+  <div class="row"><input id="code" placeholder="Szobakód" maxlength="4" size="8"><button id="jn" class="pk">Csatlakozás</button></div>
+  <p id="err" role="alert"></p>
+</section>
+
+<section id="lobby" hidden>
+  <h2>Szoba kódja</h2>
+  <div class="code" id="rc" title="Kattints a meghívó link másolásához"></div>
+  <p><small id="cp">Kattints a kódra, és kimásolódik a meghívó link.</small></p>
+  <div id="cfg" class="pn row" hidden>
+    <label>Csapatok <select id="nt"><option>2</option><option>3</option><option>4</option></select></label>
+    <label>Szó/fő <input id="wpp" type="number" min="1" max="10" value="3" style="width:70px"></label>
+    <label>Idő (mp) <input id="tm" type="number" min="10" max="300" value="60" style="width:80px"></label>
+    <button id="shuf" class="pk">🎲 Véletlen csapatok</button>
+  </div>
+  <p><b>Válassz csapatot:</b></p>
+  <div id="tb" class="row"></div>
+  <div id="pl"></div>
+  <div class="row"><button id="go" class="big" hidden>Szavak bekérése</button></div>
+</section>
+
+<section id="words" hidden>
+  <h2>Írj be <span id="wn"></span> szót vagy kifejezést</h2>
+  <div id="wi"></div>
+  <div class="row"><button id="ws" class="big pk">Kész!</button><button id="st" class="big" hidden>Játék indítása</button></div>
+  <p id="wst"></p>
+</section>
+
+<section id="play" hidden>
+  <div id="sc"></div>
+  <div class="pn" id="rd"></div>
+  <p id="info" style="font-size:20px"></p>
+  <div id="tw" hidden><div id="tbar"><div id="tf"></div></div><div id="tt"></div></div>
+  <div id="big" hidden></div>
+  <p id="hint"></p>
+  <div id="act" class="row"><button id="beg" class="big">Indulok!</button><button id="skip" class="w">Passz ⏭</button><button id="clr" class="w">🗑 Törlés</button></div>
+  <canvas id="cv" width="900" height="600" hidden></canvas>
+  <div id="tools" class="row" hidden></div>
+  <form id="gf" hidden><input id="gi" placeholder="Tipp…" autocomplete="off"><button class="pk big">Tipp!</button></form>
+  <div id="fd"></div>
+</section>
+
+<section id="end" hidden>
+  <h2>Vége a játéknak!</h2>
+  <div id="res" class="pod"></div>
+  <div class="row"><button class="big" onclick="location.reload()">Új játék</button></div>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const PRE='szoszedo-',MODES=[['🗣️','Körülírás','magyarázd szavakkal, de magát a szót ne mondd ki'],['🙌','Mutogatás','szavak nélkül, csak mutogatva'],['✏️','Rajzolás','rajzold le a vásznon, betű és szám nélkül']];
+const cl=(v,a,b,d)=>Math.min(b,Math.max(a,Math.round(+v)||d));
+const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+function lev(a,b){let p=[...Array(b.length+1).keys()];for(let i=1;i<=a.length;i++){const c=[i];for(let j=1;j<=b.length;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]==b[j-1]?0:1));p=c}return p[b.length]}
+const close=(g,w)=>{g=norm(g);w=norm(w);return !!g&&lev(g,w)<=(w.length<4?0:w.length<7?1:w.length<11?2:3)};
+
+/* ---------- hang + konfetti ---------- */
+let AC,mute=false,tk=0;
+function snd(f,d=.12,t='square',v=.07,at=0,sl=0){if(mute)return;try{AC=AC||new AudioContext();if(AC.state=='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain(),s=AC.currentTime+at;o.type=t;o.frequency.setValueAtTime(f,s);if(sl)o.frequency.exponentialRampToValueAtTime(sl,s+d);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(.001,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}catch(e){}}
+const SFX={ok:()=>[523,659,784,1047].forEach((f,i)=>snd(f,.18,'triangle',.12,i*.07)),bad:()=>snd(190,.22,'sawtooth',.06,0,90),tick:()=>snd(900,.05,'square',.05),go:()=>snd(300,.3,'sawtooth',.06,0,900),skip:()=>snd(700,.15,'triangle',.08,0,300),end:()=>[392,330,262].forEach((f,i)=>snd(f,.25,'square',.08,i*.15)),join:()=>{snd(660,.08,'triangle',.1);snd(880,.1,'triangle',.1,.08)},win:()=>[523,659,784,1047,784,1047,1319].forEach((f,i)=>snd(f,.2,'triangle',.12,i*.11))};
+document.addEventListener('click',e=>{if(e.target.closest('button'))snd(520,.05,'triangle',.06)});
+$('#mu').onclick=()=>{mute=!mute;$('#mu').textContent=mute?'🔇':'🔊'};
+const fx=$('#fx'),fc=fx.getContext('2d');let ps=[],run=0;
+const rs=()=>{fx.width=innerWidth;fx.height=innerHeight};rs();onresize=rs;
+function conf(x,y,n=40){const cols=['#ff5d73','#22d3c5','#ffc933','#8b6cff','#fff'];for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Math.random()*9+3;ps.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,r:Math.random()*6,w:7+Math.random()*7,c:cols[i%5],l:70+Math.random()*40})}if(!run){run=1;loop()}}
+function loop(){fc.clearRect(0,0,fx.width,fx.height);ps=ps.filter(p=>p.l-->0);ps.forEach(p=>{p.vy+=.35;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=.2;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.fillStyle=p.c;fc.globalAlpha=Math.min(1,p.l/25);fc.fillRect(-p.w/2,-p.w/4,p.w,p.w/2);fc.restore()});ps.length?requestAnimationFrame(loop):run=0}
+function splash(t,s,k){$('#spi').innerHTML=`${t}<small>${s}</small>`;$('#spi').style.setProperty('--c',`var(--c${k})`);const e=$('#sp');e.classList.remove('on');void e.offsetWidth;e.classList.add('on')}
+
+/* ---------- állapot ---------- */
+let me,host=false,peer,hc,code='',conns={},S,V,W,tm,pv={},secret={w:{},pool:[],cur:null};
+const ids=()=>Object.keys(S.P);
+const fresh=()=>({ph:'lobby',P:{},teams:2,wpp:3,time:60,rd:0,ti:0,tc:0,fc:0,cnt:[0,0,0,0],sc:[0,0,0,0],left:0,turn:null,feed:[]});
+const to=(i,m)=>i==me?onClient(m):conns[i]&&conns[i].send(m);
+const all=m=>{Object.values(conns).forEach(c=>c.send(m));onClient(m)};
+const act=m=>host?onMsg(me,m):hc.send(m);
+const bc=()=>{if(S.turn&&S.turn.live)S.turn.ms=Math.max(0,S.turn.he-Date.now());all({a:'S',S})};
+const err=t=>$('#err').textContent=t;
+const show=i=>document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!=i);
+try{$('#name').value=localStorage.szn||''}catch(e){}
+const qr=new URLSearchParams(location.search).get('r');if(qr)$('#code').value=qr.toUpperCase().slice(0,4);
+const myName=()=>{const n=$('#name').value.trim();try{localStorage.szn=n}catch(e){}return n};
+
+/* ---------- kapcsolat ---------- */
+function mkRoom(){
+  const n=myName();if(!n)return err('Írd be a neved!');
+  code=Array.from({length:4},()=>'ABCDEFGHJKMNPQRSTUVWXYZ23456789'[Math.random()*31|0]).join('');
+  host=true;peer=new Peer(PRE+code);
+  peer.on('open',id=>{me=id;S=fresh();S.P[me]={n,t:0,d:0};bc()});
+  peer.on('connection',c=>{
+    c.on('data',m=>{
+      if(m.a=='join'){if(S.ph!='lobby'||ids().length>=20)return c.send({a:'err',m:'A játék már elindult, vagy megtelt a szoba.'});conns[c.peer]=c}
+      onMsg(c.peer,m)});
+    c.on('close',()=>left(c.peer))});
+  peer.on('error',e=>{if(e.type=='unavailable-id'){peer.destroy();mkRoom()}else err('Hiba: '+e.type)});
+}
+function joinRoom(){
+  const n=myName();code=$('#code').value.trim().toUpperCase();
+  if(!n||!code)return err('Add meg a neved és a szobakódot!');
+  peer=new Peer();
+  peer.on('open',id=>{me=id;hc=peer.connect(PRE+code,{reliable:true});
+    hc.on('open',()=>hc.send({a:'join',n}));hc.on('data',onClient);
+    hc.on('close',()=>{err('Megszakadt a kapcsolat.');show('home')})});
+  peer.on('error',e=>err(e.type=='peer-unavailable'?'Nincs ilyen szoba.':'Hiba: '+e.type));
+}
+
+/* ---------- host: játéklogika ---------- */
+function onMsg(id,m){
+  const p=S.P[id],T=S.turn,H=id==me,live=T&&T.live;
+  if(m.a=='join'){if(!p)S.P[id]={n:String(m.n).slice(0,20)||'?',t:ids().length%S.teams,d:0}}
+  else if(!p)return;
+  else if(m.a=='d'){if(live&&id==T.p&&S.rd==2){Object.entries(conns).forEach(([i,c])=>i!=id&&c.send(m));if(!H)onClient(m)}return}
+  else if(S.ph=='lobby'){
+    if(m.a=='team')p.t=cl(m.t,0,S.teams-1,0);
+    else if(H&&m.a=='cfg'){S.teams=cl(m.nt,2,4,2);S.wpp=cl(m.wpp,1,10,3);S.time=cl(m.tm,10,300,60);ids().forEach(i=>S.P[i].t%=S.teams)}
+    else if(H&&m.a=='shuf')ids().sort(()=>Math.random()-.5).forEach((i,k)=>S.P[i].t=k%S.teams);
+    else if(H&&m.a=='go')S.ph='words';
+  }
+  else if(S.ph=='words'){
+    if(m.a=='words'){secret.w[id]=(m.w||[]).map(x=>String(x).trim().slice(0,40)).filter(Boolean).slice(0,S.wpp);p.d=1}
+    else if(H&&m.a=='begin')begin();
+  }
+  else if(S.ph=='play'&&T){
+    if(m.a=='run'&&id==T.p&&!live){T.live=true;T.he=Date.now()+S.time*1000;tm=setTimeout(()=>{endTurn(false);bc()},S.time*1000);nextWord()}
+    else if(live&&id==T.p&&m.a=='skip')nextWord(1);
+    else if(live&&id==T.p&&m.a=='clr')all({a:'dc'});
+    else if(live&&id!=T.p&&p.t==T.t&&m.a=='g'){
+      const g=String(m.g).slice(0,40),ok=close(g,secret.cur);
+      S.feed=[...S.feed,{n:p.n,g,ok}].slice(-6);S.fc++;
+      if(ok){S.sc[T.t]++;nextWord()}
+    }
+  }
+  bc();
+}
+function fillPool(){secret.pool=Object.values(secret.w).flat().sort(()=>Math.random()-.5);S.left=secret.pool.length}
+function begin(){S.ph='play';S.rd=0;S.ti=0;S.cnt=[0,0,0,0];fillPool();startTurn()}
+function startTurn(){
+  for(let k=0;k<S.teams;k++){
+    const t=S.ti%S.teams,m=ids().filter(i=>S.P[i].t==t);
+    if(m.length){S.turn={p:m[S.cnt[t]++%m.length],t,live:false,tn:++S.tc};S.feed=[];all({a:'dc'});return}
+    S.ti++;
+  }
+  S.ph='end';S.turn=null;
+}
+function nextWord(skip){
+  if(skip&&secret.cur)secret.pool.unshift(secret.cur);
+  secret.cur=secret.pool.pop();
+  S.left=secret.pool.length+(secret.cur?1:0);
+  if(!secret.cur)return endTurn(true);
+  all({a:'dc'});to(S.turn.p,{a:'w',w:secret.cur});
+}
+function endTurn(done){
+  clearTimeout(tm);
+  if(secret.cur){secret.pool.unshift(secret.cur);secret.cur=null}
+  S.ti++;
+  if(done){if(S.rd>=2){S.ph='end';S.turn=null;return}S.rd++;fillPool()}
+  S.left=secret.pool.length;
+  startTurn();
+}
+function left(id){
+  delete conns[id];if(!S.P[id])return;
+  const was=S.turn&&S.turn.p==id;delete S.P[id];
+  if(S.ph=='play'&&was)endTurn(false);
+  bc();
+}
+
+/* ---------- kliens ---------- */
+function onClient(m){
+  if(m.a=='S'){const o=pv;V=JSON.parse(JSON.stringify(m.S));if(V.turn)V.end=Date.now()+(V.turn.ms||0);fxs(o);render(o);const T=V.turn;pv={ph:V.ph,tn:T?T.tn:null,live:T&&T.live,rd:V.rd,fc:V.fc,np:Object.keys(V.P).length,sc:[...V.sc]}}
+  else if(m.a=='w'){W=m.w;if(V)render(pv)}
+  else if(m.a=='d')seg(m.s);
+  else if(m.a=='dc')cx.clearRect(0,0,cv.width,cv.height);
+  else if(m.a=='err'){err(m.m);show('home')}
+}
+function fxs(o){
+  const T=V.turn,np=Object.keys(V.P).length;
+  if(V.ph=='lobby'&&o.np!=null&&np>o.np)SFX.join();
+  if(V.ph=='words'&&o.ph!='words')SFX.go();
+  if(V.ph=='end'&&o.ph!='end'){SFX.win();[.2,.5,.8].forEach((x,i)=>setTimeout(()=>conf(innerWidth*x,innerHeight*.4,90),i*300))}
+  if(V.ph=='play'&&T){
+    if(o.tn!=T.tn){
+      $('#fd').dataset.c='';tk=0;
+      const k=T.t,n=esc(V.P[T.p].n);
+      if(o.tn==null||o.rd!=V.rd){splash(`${V.rd+1}. kör: ${MODES[V.rd][1]}`,`Elsőként ${n} (Csapat ${k+1})`,k);if(o.tn!=null)SFX.win()}
+      else{splash(n,`Csapat ${k+1} jön`,k);if(o.live)SFX.end()}
+    }
+    if(T.live&&!o.live){SFX.go();tk=0}
+    if(V.fc>(o.fc||0)){const f=V.feed[V.feed.length-1];if(f&&f.ok){SFX.ok();conf(innerWidth/2,innerHeight*.35,80)}else SFX.bad()}
+  }
+}
+const TC=k=>`style="--c:var(--c${k})"`,ini=n=>esc(([...n][0]||'?').toUpperCase());
+function render(o){
+  if(!V)return;
+  const L=Object.keys(V.P),mine=V.P[me]||{t:0},T=V.turn,teams=[...Array(V.teams).keys()];
+  show(V.ph);
+  if(V.ph=='lobby'){
+    $('#cfg').hidden=!host;$('#go').hidden=!host;
+    const sg=JSON.stringify([V.teams,V.P,mine.t]);
+    if($('#pl').dataset.s!=sg){$('#pl').dataset.s=sg;
+      $('#rc').innerHTML=[...code].map(c=>`<b>${c}</b>`).join('');
+      $('#tb').innerHTML=teams.map(k=>`<button ${TC(k)} class="${mine.t==k?'':'w'}" style="--c:var(--c${k});${mine.t==k?'background:var(--c);color:#fff':''}" onclick="act({a:'team',t:${k}})">Csapat ${k+1}</button>`).join('');
+      $('#pl').innerHTML=teams.map(k=>`<div class="pn tm" ${TC(k)}><b>Csapat ${k+1}</b><br>${L.filter(i=>V.P[i].t==k).map(i=>`<span class="pl"><i class="av" ${TC(k)}>${ini(V.P[i].n)}</i>${esc(V.P[i].n)}${i==me?' (te)':''}</span>`).join('')||'<small>üres</small>'}</div>`).join('')}
+  }
+  if(V.ph=='words'){
+    const wi=$('#wi');
+    if(wi.dataset.n!=V.wpp){wi.dataset.n=V.wpp;$('#wn').textContent=V.wpp;wi.innerHTML=Array.from({length:V.wpp},()=>'<input maxlength="40" placeholder="pl. Eiffel-torony">').join('')}
+    const dn=L.filter(i=>V.P[i].d).length;
+    wi.querySelectorAll('input').forEach(i=>i.disabled=!!mine.d);$('#ws').disabled=!!mine.d;
+    $('#wst').innerHTML=L.map(i=>`<i class="av ${V.P[i].d?'':'dim'}" ${TC(V.P[i].t)} title="${esc(V.P[i].n)}">${V.P[i].d?'✓':ini(V.P[i].n)}</i>`).join('')+` ${dn}/${L.length} kész`;
+    $('#st').hidden=!host;$('#st').disabled=dn<L.length;
+  }
+  if(V.ph=='play'){
+    const live=T.live,A=T.p==me,mt=mine.t==T.t,pn=esc(V.P[T.p].n),M=MODES[V.rd],bg=$('#big');
+    $('#sc').innerHTML=teams.map(k=>`<div class="ch ${k==T.t?'on':''} ${V.sc[k]>(o.sc||[])[k]?'bump':''}" ${TC(k)}>Csapat ${k+1}<b>${V.sc[k]}</b></div>`).join('');
+    $('#rd').innerHTML=`<b style="font-size:22px">${M[0]} ${M[1]}</b> <small>${V.rd+1}/3. kör · még ${V.left} szó</small><br>${M[2]}`;
+    $('#info').innerHTML=live?`<b>${pn}</b> játszik (Csapat ${T.t+1})`:`Következik: <b>${pn}</b> (Csapat ${T.t+1})`;
+    $('#tw').hidden=!live;
+    $('#act').hidden=!A;$('#beg').hidden=live;$('#skip').hidden=!live;$('#clr').hidden=!(live&&V.rd==2);
+    $('#tools').hidden=!(A&&live&&V.rd==2);
+    bg.hidden=!A;
+    if(A){const t=live?(W||'…'):'Készen állsz?';if(bg.textContent!=t){bg.textContent=t;bg.style.setProperty('--r',(Math.random()*6-3)+'deg');bg.classList.remove('slip');void bg.offsetWidth;bg.classList.add('slip')}}
+    $('#hint').textContent=A?'':live?(mt?'Írd be a tippjeid!':'A másik csapat játszik, ti figyeltek 👀'):'';
+    $('#gf').hidden=!(live&&mt&&!A);
+    $('#cv').hidden=!(live&&V.rd==2);
+    const fd=$('#fd');
+    if(fd.dataset.c!=V.fc){fd.dataset.c=V.fc;fd.innerHTML=V.feed.map((f,i)=>`<div class="bb ${f.ok?'ok':''} ${i==V.feed.length-1?'nw':''}">${f.ok?'✅':'❌'} <b>${esc(f.n)}</b>: ${esc(f.g)}</div>`).join('')}
+  }
+  if(V.ph=='end'){
+    const r=teams.filter(k=>L.some(i=>V.P[i].t==k)).sort((a,b)=>V.sc[b]-V.sc[a]),mx=Math.max(1,...r.map(k=>V.sc[k]));
+    $('#res').innerHTML=r.map((k,j)=>`<div class="bar" ${TC(k)} style="--c:var(--c${k});height:${30+70*V.sc[k]/mx}%"><span>${['🏆','🥈','🥉','🎖️'][j]}</span><b>${V.sc[k]}</b>Csapat ${k+1}</div>`).join('');
+  }
+}
+setInterval(()=>{const T=V&&V.turn;if(!(T&&T.live&&V.ph=='play'))return;const ms=Math.max(0,V.end-Date.now()),s=Math.ceil(ms/1000);$('#tt').textContent=s;$('#tf').style.transform=`scaleX(${ms/(V.time*1000)})`;$('#tbar').classList.toggle('hot',s<=10);if(s<=5&&s>0&&s!=tk){tk=s;SFX.tick()}},100);
+
+/* ---------- vászon ---------- */
+const cv=$('#cv'),cx=cv.getContext('2d'),COL=['#0f0b24','#ff3b5c','#1e6bff','#17b26a','#ffb400','#ffffff'];let col=0;
+cx.lineCap=cx.lineJoin='round';
+const seg=s=>{const c=s[4]||0;cx.strokeStyle=COL[c];cx.lineWidth=c==5?28:6;cx.beginPath();cx.moveTo(s[0]*cv.width,s[1]*cv.height);cx.lineTo(s[2]*cv.width,s[3]*cv.height);cx.stroke()};
+const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]};
+const canDraw=()=>V&&V.turn&&V.turn.live&&V.turn.p==me&&V.rd==2;
+let last=null;
+cv.onpointerdown=e=>{if(canDraw()){last=pt(e);cv.setPointerCapture(e.pointerId);const s=[...last,...last,col];seg(s);act({a:'d',s})}};
+cv.onpointermove=e=>{if(last){const p=pt(e),s=[...last,...p,col];seg(s);act({a:'d',s});last=p}};
+cv.onpointerup=cv.onpointercancel=()=>last=null;
+$('#tools').innerHTML=COL.map((c,i)=>`<button class="sw ${i?'':'on'}" data-c="${i}" style="background:${c}" aria-label="${i==5?'Radír':'Szín'}">${i==5?'🧽':''}</button>`).join('');
+$('#tools').onclick=e=>{const b=e.target.closest('.sw');if(!b)return;col=+b.dataset.c;document.querySelectorAll('.sw').forEach(x=>x.classList.toggle('on',x==b))};
+
+/* ---------- gombok ---------- */
+$('#mk').onclick=mkRoom;$('#jn').onclick=joinRoom;
+$('#rc').onclick=()=>{try{navigator.clipboard.writeText(location.origin+location.pathname+'?r='+code);$('#cp').textContent='Meghívó link kimásolva! 🎉';conf(innerWidth/2,200,30)}catch(e){}};
+$('#go').onclick=()=>act({a:'go'});$('#shuf').onclick=()=>act({a:'shuf'});$('#st').onclick=()=>act({a:'begin'});
+['#nt','#wpp','#tm'].forEach(s=>$(s).onchange=()=>act({a:'cfg',nt:$('#nt').value,wpp:$('#wpp').value,tm:$('#tm').value}));
+$('#ws').onclick=()=>{act({a:'words',w:[...document.querySelectorAll('#wi input')].map(i=>i.value)});SFX.ok();conf(innerWidth/2,innerHeight*.5,40)};
+$('#beg').onclick=()=>act({a:'run'});$('#skip').onclick=()=>{SFX.skip();act({a:'skip'})};$('#clr').onclick=()=>act({a:'clr'});
+$('#gf').onsubmit=e=>{e.preventDefault();const v=$('#gi').value.trim();$('#gi').value='';if(v)act({a:'g',g:v})};
+</script>
+</body>
+</html>
